@@ -1,0 +1,13 @@
+/**
+ * Implements hook_theme().
+ */
+function dynamic_feed_theme($existing, $type, $theme, $path) {
+  return [
+    'dynamic_feed' => [
+      'variables' => [
+        'title' => NULL,
+        'body' => NULL,
+      ],
+    ],
+  ];
+}
