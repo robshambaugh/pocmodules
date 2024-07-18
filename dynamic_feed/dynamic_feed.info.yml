@@ -1,0 +1,8 @@
+name: 'Dynamic Feed'
+type: module
+description: 'Provides a dynamic feed to Site Studio component integration.'
+core_version_requirement: ^8 || ^9
+package: Custom
+dependencies:
+  - drupal:feeds
+  - drupal:field

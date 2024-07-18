@@ -1,0 +1,4 @@
+services:
+  scene7_integration.scene7_service:
+    class: 'Drupal\scene7_integration\Service\Scene7Service'
+    arguments: ['@http_client']
