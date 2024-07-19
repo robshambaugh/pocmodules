@@ -1,0 +1,9 @@
+name: 'Scene7 Integration'
+type: module
+description: 'Integrates Scene7 DAM with Site Studio.'
+core_version_requirement: ^10
+package: Custom
+dependencies:
+  - drupal/cohesion
+  - drupal/image
+  - drupal/file

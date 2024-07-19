@@ -1,3 +1,5 @@
+<?php
+
 namespace Drupal\dynamic_feed\Plugin\Block;
 
 use Drupal\Core\Block\BlockBase;
@@ -73,8 +75,7 @@ class DynamicFeedBlock extends BlockBase implements ContainerFactoryPluginInterf
               'max-age' => 0,
             ],
           ];
-        }
-        else {
+        } else {
           return [
             '#markup' => $this->t('No data found for post ID @id.', ['@id' => $post_id]),
             '#cache' => [
@@ -82,8 +83,7 @@ class DynamicFeedBlock extends BlockBase implements ContainerFactoryPluginInterf
             ],
           ];
         }
-      }
-      catch (\Exception $e) {
+      } catch (\Exception $e) {
         return [
           '#markup' => $this->t('Unable to fetch data.'),
           '#cache' => [
@@ -91,8 +91,7 @@ class DynamicFeedBlock extends BlockBase implements ContainerFactoryPluginInterf
           ],
         ];
       }
-    }
-    else {
+    } else {
       return [
         '#markup' => $this->t('No post ID provided.'),
         '#cache' => [

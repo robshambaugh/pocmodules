@@ -1,0 +1,7 @@
+external_api_integration.data:
+  path: '/api/external-data/{id}'
+  defaults:
+    _controller: '\Drupal\external_api_integration\Controller\ExternalApiController::getData'
+    _title: 'External API Data'
+  requirements:
+    _permission: 'access content'
