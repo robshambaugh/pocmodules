@@ -4,4 +4,4 @@ description: 'Fetches data from an external API and provides it for use in Site 
 core_version_requirement: ^10
 package: Custom
 dependencies:
-  - drupal/cohesion
+  - drupal/acquia_cohesion

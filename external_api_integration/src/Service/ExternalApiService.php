@@ -3,6 +3,7 @@
 namespace Drupal\external_api_integration\Service;
 
 use GuzzleHttp\Client;
+use Drupal\Core\Config\ConfigFactoryInterface;
 use Drupal\Core\Logger\LoggerChannelFactoryInterface;
 
 class ExternalApiService {
@@ -11,10 +12,11 @@ class ExternalApiService {
   protected $logger;
   protected $apiUrl;
 
-  public function __construct(Client $http_client, LoggerChannelFactoryInterface $logger_factory) {
+  public function __construct(Client $http_client, ConfigFactoryInterface $config_factory, LoggerChannelFactoryInterface $logger_factory) {
     $this->httpClient = $http_client;
+    $this->config = $config_factory->get('external_api_integration.settings');
+    $this->apiUrl = $this->config->get('api_url');
     $this->logger = $logger_factory->get('external_api_integration');
-    $this->apiUrl = 'https://jsonplaceholder.typicode.com/posts'; // Example API URL
   }
 
   public function getData($id) {
