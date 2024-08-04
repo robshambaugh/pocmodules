@@ -1,0 +1,3 @@
+administer api consumer settings:
+  title: 'Administer API Consumer settings'
+  description: 'Manage API sources and endpoints for the API Consumer module.'

@@ -1,0 +1,6 @@
+api_consumer.admin:
+  title: 'API Consumer Settings'
+  description: 'Manage API sources and endpoints.'
+  parent: system.admin_config_system
+  route_name: api_consumer.settings
+  weight: 100

@@ -1,3 +1,11 @@
+api_consumer.settings:
+  path: '/admin/config/api-consumer'
+  defaults:
+    _form: '\Drupal\api_consumer\Form\APIConsumerConfigForm'
+    _title: 'API Consumer Settings'
+  requirements:
+    _permission: 'administer site configuration'
+
 api_consumer.content:
   path: '/api-consumer'
   defaults:
