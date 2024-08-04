@@ -1,51 +1,49 @@
 <?php
 
 use Drupal\user\Entity\User;
+use GuzzleHttp\Exception\RequestException;
 
 /**
  * Implements hook_user_login().
  */
 function api_consumer_user_login(&$edit, $account) {
-  // Check if the user logged in via SSO or standard login.
-  if ($account->isAuthenticated()) {
-    $config = \Drupal::config('api_consumer.settings');
-    $apis = json_decode($config->get('apis'), TRUE);
+  $config = \Drupal::config('api_consumer.settings');
+  $apis = json_decode($config->get('apis'), TRUE);
 
-    $selected_api = 'Customers API';  // Fixed to the Customers API
-    $selected_endpoint = 'customers'; // Fixed to the customers endpoint
+  $selected_api = 'Customers API';  // Fixed to the Customers API
+  $selected_endpoint = 'customers'; // Fixed to the customers endpoint
 
-    $api_url = '';
-    foreach ($apis as $api) {
-      if ($api['name'] == $selected_api) {
-        $api_url = $api['url'];
-        break;
-      }
+  $api_url = '';
+  foreach ($apis as $api) {
+    if ($api['name'] == $selected_api) {
+      $api_url = $api['url'];
+      break;
     }
+  }
 
-    if (!empty($api_url)) {
-      // Assuming the user ID is the same as the customer ID
-      $user_id = $account->id();
-      $api_url .= '/' . $user_id;
+  if (!empty($api_url)) {
+    // Assuming the user ID is the same as the customer ID
+    $user_id = $account->id();
+    $api_url .= '/' . $user_id;
 
-      try {
-        $client = \Drupal::httpClient();
-        $response = $client->request('GET', $api_url);
-        $data = json_decode($response->getBody(), TRUE);
+    try {
+      $client = \Drupal::httpClient();
+      $response = $client->request('GET', $api_url);
+      $data = json_decode($response->getBody(), TRUE);
 
-        if (isset($data['customer_id'])) {
-          // Update the user entity with the customer ID
-          $account->set('field_customer_id', $data['customer_id']);
-          $account->save();
-        } else {
-          // Handle the case where no customer data is found
-          $account->set('field_customer_id', NULL);
-          $account->save();
-        }
-
-      } catch (\Exception $e) {
-        watchdog_exception('api_consumer', $e);
-        // Handle exceptions gracefully, ensuring they do not affect the login process.
+      if (isset($data['customer_id'])) {
+        // Update the user entity with the customer ID
+        $account->set('field_customer_id', $data['customer_id']);
+        $account->save();
+      } else {
+        // Handle the case where no customer data is found
+        $account->set('field_customer_id', NULL);
+        $account->save();
       }
+
+    } catch (RequestException $e) {
+      \Drupal::logger('api_consumer')->error($e->getMessage());
+      // Handle exceptions gracefully, ensuring they do not affect the login process.
     }
   }
 }

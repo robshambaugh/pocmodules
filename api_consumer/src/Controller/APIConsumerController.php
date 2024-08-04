@@ -9,6 +9,7 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Drupal\Core\Session\AccountProxyInterface;
 use Psr\Log\LoggerInterface;
+use Drupal\user\Entity\User;
 
 class APIConsumerController extends ControllerBase {
 
@@ -51,14 +52,19 @@ class APIConsumerController extends ControllerBase {
       return new Response('Invalid API.', 400);
     }
 
-    // Append the user ID to the endpoint if the API is Customers API
+    // Append the customer ID to the endpoint if the API is Customers API
     if ($selected_api === 'Customers API') {
-      $user_id = $this->currentUser->id();
-      $api_url .= '/' . $user_id;
+      $user = User::load($this->currentUser->id());
+      if ($user && $user->hasField('field_customer_id')) {
+        $customer_id = $user->get('field_customer_id')->value;
+        $api_url .= '/' . $customer_id;
 
-      // Log the user ID and URL for debugging
-      $this->logger->debug('Fetching customer data for user ID: ' . $user_id);
-      $this->logger->debug('API URL: ' . $api_url);
+        // Log the customer ID and URL for debugging
+        $this->logger->debug('Fetching customer data for customer ID: ' . $customer_id);
+        $this->logger->debug('API URL: ' . $api_url);
+      } else {
+        return new Response('Customer ID not found for the user.', 404);
+      }
     }
 
     try {
