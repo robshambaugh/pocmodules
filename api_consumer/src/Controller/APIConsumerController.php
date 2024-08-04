@@ -26,22 +26,21 @@ class APIConsumerController extends ControllerBase {
     $config = $this->config('api_consumer.settings');
     $apis = json_decode($config->get('apis'), TRUE);
     $selected_api = $request->query->get('api');
-    $selected_endpoint = $request->query->get('endpoint');
 
-    if (!$selected_api || !$selected_endpoint) {
-      return new Response('API and Endpoint parameters are required.', 400);
+    if (!$selected_api) {
+      return new Response('API parameter is required.', 400);
     }
 
     $api_url = '';
     foreach ($apis as $api) {
       if ($api['name'] == $selected_api) {
-        $api_url = $api['url'] . '/' . $selected_endpoint;
+        $api_url = $api['url'];
         break;
       }
     }
 
     if (empty($api_url)) {
-      return new Response('Invalid API or Endpoint.', 400);
+      return new Response('Invalid API.', 400);
     }
 
     try {
@@ -51,6 +50,12 @@ class APIConsumerController extends ControllerBase {
       // Process and display data as needed.
       $output = '<pre>' . print_r($data, TRUE) . '</pre>';
 
+    } catch (\GuzzleHttp\Exception\ClientException $e) {
+      $output = 'Client error: ' . $e->getMessage();
+    } catch (\GuzzleHttp\Exception\ServerException $e) {
+      $output = 'Server error: ' . $e->getMessage();
+    } catch (\GuzzleHttp\Exception\ConnectException $e) {
+      $output = 'Connection error: ' . $e->getMessage();
     } catch (\Exception $e) {
       $output = 'An error occurred: ' . $e->getMessage();
     }
