@@ -31,10 +31,12 @@ class SetCookiesSubscriber implements EventSubscriberInterface {
 
   public function onKernelRequest(RequestEvent $event) {
     if ($event->isMasterRequest()) {
+      $this->logger->info('SetCookiesSubscriber triggered');
       $user = \Drupal\user\Entity\User::load($this->currentUser->id());
       $customer_id = $user->get('field_customer_id')->value;
 
       if ($customer_id) {
+        $this->logger->info('Customer ID found: @customer_id', ['@customer_id' => $customer_id]);
         $customer_data = $this->apiDataService->getCustomers();
         $trips_data = $this->apiDataService->getCustomerTrips($customer_id);
 
