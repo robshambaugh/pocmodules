@@ -8,21 +8,25 @@ use Symfony\Component\DependencyInjection\ContainerInterface;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Drupal\Core\Session\AccountProxyInterface;
+use Psr\Log\LoggerInterface;
 
 class APIConsumerController extends ControllerBase {
 
   protected $httpClient;
   protected $currentUser;
+  protected $logger;
 
-  public function __construct(ClientInterface $http_client, AccountProxyInterface $current_user) {
+  public function __construct(ClientInterface $http_client, AccountProxyInterface $current_user, LoggerInterface $logger) {
     $this->httpClient = $http_client;
     $this->currentUser = $current_user;
+    $this->logger = $logger;
   }
 
   public static function create(ContainerInterface $container) {
     return new static(
       $container->get('http_client'),
-      $container->get('current_user')
+      $container->get('current_user'),
+      $container->get('logger.channel.default')
     );
   }
 
@@ -51,6 +55,10 @@ class APIConsumerController extends ControllerBase {
     if ($selected_api === 'Customers API') {
       $user_id = $this->currentUser->id();
       $api_url .= '/' . $user_id;
+
+      // Log the user ID and URL for debugging
+      $this->logger->debug('Fetching customer data for user ID: ' . $user_id);
+      $this->logger->debug('API URL: ' . $api_url);
     }
 
     try {
