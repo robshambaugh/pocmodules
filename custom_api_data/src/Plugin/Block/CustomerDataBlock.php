@@ -70,6 +70,15 @@ class CustomerDataBlock extends BlockBase implements ContainerFactoryPluginInter
 
         $data_js_json = json_encode($data_js);
 
+        // Add data to a cookie
+        $cookie_script = "
+          document.cookie = 'customerFirstName={$customer_first_name}; path=/';
+          document.cookie = 'numberOfTrips={$number_of_trips}; path=/';
+          document.cookie = 'tripName={$trip_name}; path=/';
+          document.cookie = 'tripStartDate={$trip_start_date}; path=/';
+          document.cookie = 'tripEndDate={$trip_end_date}; path=/';
+        ";
+
         return [
           '#markup' => $this->t('Hi @first_name. We hope you enjoyed your @trip_name from @start_date to @end_date.', [
             '@first_name' => $customer_first_name,
@@ -82,7 +91,7 @@ class CustomerDataBlock extends BlockBase implements ContainerFactoryPluginInter
               [
                 [
                   '#tag' => 'script',
-                  '#value' => "window.customerData = $data_js_json;",
+                  '#value' => "window.customerData = $data_js_json; $cookie_script",
                 ],
                 'customer_data_js',
               ],

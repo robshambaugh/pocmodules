@@ -1,9 +1,9 @@
 name: 'Custom API Data'
 type: module
-description: 'Fetches and displays data from external APIs.'
+description: 'Fetches and displays data from external APIs and integrates with Site Studio.'
 core_version_requirement: ^8 || ^9 || ^10
 dependencies:
-  - drupal:site_studio
   - drupal:block
   - drupal:field
   - drupal:layout_builder
+  - drupal:cohesion
