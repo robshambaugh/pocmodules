@@ -76,4 +76,9 @@ class SetCookiesSubscriber implements EventSubscriberInterface {
           $this->logger->warning('No customer ID found for user ID: @user_id', ['@user_id' => $this->currentUser->id()]);
         }
       } else {
-        $this->logger->wa
+        $this->logger->warning('No user found for current session.');
+      }
+      */
+    }
+  }
+}
