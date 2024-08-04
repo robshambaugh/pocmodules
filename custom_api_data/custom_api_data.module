@@ -38,6 +38,7 @@ function custom_api_data_page_attachments_alter(array &$attachments) {
         'tripEndDate' => $trip_end_date,
       ];
 
+      \Drupal::logger('custom_api_data')->info('Passing data to drupalSettings: @data', ['@data' => json_encode($data_js)]);
       $attachments['#attached']['drupalSettings']['customerData'] = $data_js;
     }
   }

@@ -9,7 +9,7 @@
     document.cookie = name + "=" + (value || "") + expires + "; path=/";
   }
 
-  // Fetch customer data from a global variable set by PHP
+  // Fetch customer data from drupalSettings
   var customerData = drupalSettings.customerData;
   console.log('Customer Data:', customerData); // Debugging log
 
