@@ -48,11 +48,17 @@ class CustomerDataBlock extends BlockBase implements ContainerFactoryPluginInter
       if ($customer_data && $trips_data) {
         $customer_first_name = $customer_data['data'][0]['attributes']['first_name'];
         $number_of_trips = count($trips_data['data']);
-        $trip_info = $trips_data['data'][0]['attributes'];
 
-        $trip_name = $trip_info['trip_name'];
-        $trip_start_date = $trip_info['start_date'];
-        $trip_end_date = $trip_info['end_date'];
+        // Sort trips by start date to find the most recent trip
+        usort($trips_data['data'], function($a, $b) {
+          return strtotime($b['attributes']['start_date']) - strtotime($a['attributes']['start_date']);
+        });
+
+        $most_recent_trip = $trips_data['data'][0]['attributes'];
+
+        $trip_name = $most_recent_trip['trip_name'];
+        $trip_start_date = $most_recent_trip['start_date'];
+        $trip_end_date = $most_recent_trip['end_date'];
 
         $data_js = [
           'customerFirstName' => $customer_first_name,
