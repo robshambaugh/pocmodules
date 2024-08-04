@@ -54,6 +54,16 @@ class CustomerDataBlock extends BlockBase implements ContainerFactoryPluginInter
         $trip_start_date = $trip_info['start_date'];
         $trip_end_date = $trip_info['end_date'];
 
+        $data_js = [
+          'customerFirstName' => $customer_first_name,
+          'numberOfTrips' => $number_of_trips,
+          'tripName' => $trip_name,
+          'tripStartDate' => $trip_start_date,
+          'tripEndDate' => $trip_end_date,
+        ];
+
+        $data_js_json = json_encode($data_js);
+
         return [
           '#markup' => $this->t('Hi @first_name. We hope you enjoyed your @trip_name from @start_date to @end_date.', [
             '@first_name' => $customer_first_name,
@@ -61,6 +71,17 @@ class CustomerDataBlock extends BlockBase implements ContainerFactoryPluginInter
             '@start_date' => $trip_start_date,
             '@end_date' => $trip_end_date,
           ]),
+          '#attached' => [
+            'html_head' => [
+              [
+                [
+                  '#tag' => 'script',
+                  '#value' => "window.customerData = $data_js_json;",
+                ],
+                'customer_data_js',
+              ],
+            ],
+          ],
         ];
       } else {
         return [
