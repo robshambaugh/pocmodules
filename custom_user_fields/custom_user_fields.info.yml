@@ -1,0 +1,7 @@
+name: 'Custom User Fields'
+type: module
+description: 'Provides custom user fields and integrates them with external APIs.'
+core_version_requirement: ^8 || ^9 || ^10
+dependencies:
+  - drupal:user
+  - drupal:field
