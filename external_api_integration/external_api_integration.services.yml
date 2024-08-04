@@ -1,4 +1,0 @@
-services:
-  external_api_integration.external_api_service:
-    class: 'Drupal\external_api_integration\Service\ExternalApiService'
-    arguments: ['@http_client', '@config.factory', '@logger.factory']
