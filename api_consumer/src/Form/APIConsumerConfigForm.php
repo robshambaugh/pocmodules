@@ -30,7 +30,7 @@ class APIConsumerConfigForm extends ConfigFormBase {
     $form['apis'] = [
       '#type' => 'textarea',
       '#title' => $this->t('API Sources'),
-      '#description' => $this->t('Enter the API sources as JSON. Example: [{"name": "API 1", "url": "https://api1.example.com", "endpoint": "v1/data"}, {"name": "API 2", "url": "https://api2.example.com", "endpoint": "endpoint"}]'),
+      '#description' => $this->t('Enter the API sources as JSON. Example: [{"name": "Customers API", "url": "https://myapisource.com", "endpoint": "customers"}, {"name": "Trips API", "url": "https://myapisource.com", "endpoint": "trips"}]'),
       '#default_value' => $config->get('apis') ?: '[]',
     ];
 
