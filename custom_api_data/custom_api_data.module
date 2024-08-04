@@ -1,3 +1,5 @@
+<?php
+
 /**
  * Implements hook_page_attachments_alter().
  */
@@ -6,39 +8,48 @@ function custom_api_data_page_attachments_alter(array &$attachments) {
   return;
 
   // The following code is commented out to prevent execution.
-  // $attachments['#attached']['library'][] = 'custom_api_data/custom_api_data';
+  /*
+  $attachments['#attached']['library'][] = 'custom_api_data/custom_api_data';
+  
   // Pass customer data to JavaScript.
-  // $current_user = \Drupal::currentUser();
-  // $user = \Drupal\user\Entity\User::load($current_user->id());
-  // $customer_id = $user->get('field_customer_id')->value;
-  // if ($customer_id) {
-  //   $api_data_service = \Drupal::service('custom_api_data.api_data_service');
-  //   $customer_data = $api_data_service->getCustomers();
-  //   $trips_data = $api_data_service->getCustomerTrips($customer_id);
-  //   if ($customer_data && $trips_data) {
-  //     $customer_first_name = $customer_data['data'][0]['attributes']['first_name'];
-  //     $number_of_trips = count($trips_data['data']);
-  //     // Sort trips by start date to find the most recent trip.
-  //     usort($trips_data['data'], function($a, $b) {
-  //       return strtotime($b['attributes']['start_date']) - strtotime($a['attributes']['start_date']);
-  //     });
-  //     $most_recent_trip = $trips_data['data'][0]['attributes'];
-  //     $trip_name = $most_recent_trip['trip_name'];
-  //     $trip_start_date = $most_recent_trip['start_date'];
-  //     $trip_end_date = $most_recent_trip['end_date'];
-  //     $data_js = [
-  //       'customerFirstName' => $customer_first_name,
-  //       'numberOfTrips' => $number_of_trips,
-  //       'tripName' => $trip_name,
-  //       'tripStartDate' => $trip_start_date,
-  //       'tripEndDate' => $trip_end_date,
-  //     ];
-  //     \Drupal::logger('custom_api_data')->info('Passing data to drupalSettings: @data', ['@data' => json_encode($data_js)]);
-  //     $attachments['#attached']['drupalSettings']['customerData'] = $data_js;
-  //   } else {
-  //     \Drupal::logger('custom_api_data')->warning('No customer or trips data found for customer ID: @customer_id', ['@customer_id' => $customer_id]);
-  //   }
-  // } else {
-  //   \Drupal::logger('custom_api_data')->warning('No customer ID found for user ID: @user_id', ['@user_id' => $current_user->id()]);
-  // }
+  $current_user = \Drupal::currentUser();
+  $user = \Drupal\user\Entity\User::load($current_user->id());
+  $customer_id = $user->get('field_customer_id')->value;
+  
+  if ($customer_id) {
+    $api_data_service = \Drupal::service('custom_api_data.api_data_service');
+    $customer_data = $api_data_service->getCustomers();
+    $trips_data = $api_data_service->getCustomerTrips($customer_id);
+    
+    if ($customer_data && $trips_data) {
+      $customer_first_name = $customer_data['data'][0]['attributes']['first_name'];
+      $number_of_trips = count($trips_data['data']);
+      
+      // Sort trips by start date to find the most recent trip.
+      usort($trips_data['data'], function($a, $b) {
+        return strtotime($b['attributes']['start_date']) - strtotime($a['attributes']['start_date']);
+      });
+
+      $most_recent_trip = $trips_data['data'][0]['attributes'];
+      $trip_name = $most_recent_trip['trip_name'];
+      $trip_start_date = $most_recent_trip['start_date'];
+      $trip_end_date = $most_recent_trip['end_date'];
+      
+      $data_js = [
+        'customerFirstName' => $customer_first_name,
+        'numberOfTrips' => $number_of_trips,
+        'tripName' => $trip_name,
+        'tripStartDate' => $trip_start_date,
+        'tripEndDate' => $trip_end_date,
+      ];
+      
+      \Drupal::logger('custom_api_data')->info('Passing data to drupalSettings: @data', ['@data' => json_encode($data_js)]);
+      $attachments['#attached']['drupalSettings']['customerData'] = $data_js;
+    } else {
+      \Drupal::logger('custom_api_data')->warning('No customer or trips data found for customer ID: @customer_id', ['@customer_id' => $customer_id]);
+    }
+  } else {
+    \Drupal::logger('custom_api_data')->warning('No customer ID found for user ID: @user_id', ['@user_id' => $current_user->id()]);
+  }
+  */
 }
