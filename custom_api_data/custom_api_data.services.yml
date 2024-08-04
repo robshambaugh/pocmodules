@@ -8,3 +8,9 @@ services:
     arguments: ['@custom_api_data.api_data_service']
     tags:
       - { name: plugin.manager.cohesion_data_source }
+
+  custom_api_data.set_cookies_subscriber:
+    class: Drupal\custom_api_data\EventSubscriber\SetCookiesSubscriber
+    arguments: ['@custom_api_data.api_data_service', '@current_user']
+    tags:
+      - { name: event_subscriber }
