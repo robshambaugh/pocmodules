@@ -11,6 +11,6 @@ services:
 
   custom_api_data.set_cookies_subscriber:
     class: Drupal\custom_api_data\EventSubscriber\SetCookiesSubscriber
-    arguments: ['@custom_api_data.api_data_service', '@current_user']
+    arguments: ['@custom_api_data.api_data_service', '@current_user', '@logger.channel.default']
     tags:
       - { name: event_subscriber }
