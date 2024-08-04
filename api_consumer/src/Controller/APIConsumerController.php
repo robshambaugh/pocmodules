@@ -57,13 +57,17 @@ class APIConsumerController extends ControllerBase {
       $user = User::load($this->currentUser->id());
       if ($user && $user->hasField('field_customer_id')) {
         $customer_id = $user->get('field_customer_id')->value;
-        $api_url .= '/' . $customer_id;
 
-        // Log the customer ID and URL for debugging
-        $this->logger->debug('Fetching customer data for customer ID: ' . $customer_id);
-        $this->logger->debug('API URL: ' . $api_url);
+        if (!empty($customer_id)) {
+          $api_url .= '/' . $customer_id;
+          // Log the customer ID and URL for debugging
+          $this->logger->debug('Fetching customer data for customer ID: ' . $customer_id);
+          $this->logger->debug('API URL: ' . $api_url);
+        } else {
+          return new Response('Customer ID not found for the user.', 404);
+        }
       } else {
-        return new Response('Customer ID not found for the user.', 404);
+        return new Response('Customer ID field not found for the user.', 404);
       }
     }
 
