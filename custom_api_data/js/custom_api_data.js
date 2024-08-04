@@ -10,7 +10,7 @@
   }
 
   // Fetch customer data from drupalSettings
-  var customerData = drupalSettings.customerData;
+  var customerData = drupalSettings.custom_api_data.customerData;
   console.log('Customer Data:', customerData); // Debugging log
 
   if (customerData) {
@@ -19,5 +19,7 @@
     setCookie('tripName', customerData.tripName, 7);
     setCookie('tripStartDate', customerData.tripStartDate, 7);
     setCookie('tripEndDate', customerData.tripEndDate, 7);
+  } else {
+    console.log('No customer data found in drupalSettings');
   }
 })();
