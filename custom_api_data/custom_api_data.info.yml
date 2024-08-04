@@ -4,8 +4,4 @@ description: 'Fetches and displays data from external APIs and integrates with S
 core_version_requirement: ^8 || ^9 || ^10
 package: Custom
 version: 1.0.5
-dependencies:
-  - drupal:block
-  - drupal:field
-  - drupal:layout_builder
-  - drupal:cohesion
+hidden: true
