@@ -29,12 +29,10 @@ class APIConsumerController extends ControllerBase {
   public function content(Request $request) {
     $config = $this->config('api_consumer.settings');
     $apis = json_decode($config->get('apis'), TRUE);
+    $selected_api = $request->query->get('api');
 
-    $selected_api = 'Customers API';  // Fixed to the Customers API
-    $selected_endpoint = 'customers'; // Fixed to the customers endpoint
-
-    if (!$selected_api || !$selected_endpoint) {
-      return new Response('API and Endpoint parameters are required.', 400);
+    if (!$selected_api) {
+      return new Response('API parameter is required.', 400);
     }
 
     $api_url = '';
@@ -46,32 +44,34 @@ class APIConsumerController extends ControllerBase {
     }
 
     if (empty($api_url)) {
-      return new Response('Invalid API or Endpoint.', 400);
+      return new Response('Invalid API.', 400);
     }
 
-    // Assuming the user ID is the same as the customer ID
-    $user_id = $this->currentUser->id();
-    $api_url .= '/' . $user_id;
+    // Append the user ID to the endpoint if the API is Customers API
+    if ($selected_api === 'Customers API') {
+      $user_id = $this->currentUser->id();
+      $api_url .= '/' . $user_id;
+    }
 
     try {
       $response = $this->httpClient->request('GET', $api_url);
       $data = json_decode($response->getBody(), TRUE);
 
       if (empty($data)) {
-        return new Response('No customer data found for the user.', 404);
+        return new Response('No data found for the specified API.', 404);
       }
 
       // Process and display data as needed.
       $output = '<pre>' . print_r($data, TRUE) . '</pre>';
 
     } catch (\GuzzleHttp\Exception\ClientException $e) {
-      $output = 'Client error: ' . $e->getMessage();
+      return new Response('Client error: ' . $e->getResponse()->getBody()->getContents(), 400);
     } catch (\GuzzleHttp\Exception\ServerException $e) {
-      $output = 'Server error: ' . $e->getMessage();
+      return new Response('Server error: ' . $e->getResponse()->getBody()->getContents(), 500);
     } catch (\GuzzleHttp\Exception\ConnectException $e) {
-      $output = 'Connection error: ' . $e->getMessage();
+      return new Response('Connection error: ' . $e->getMessage(), 500);
     } catch (\Exception $e) {
-      $output = 'An error occurred: ' . $e->getMessage();
+      return new Response('An error occurred: ' . $e->getMessage(), 500);
     }
 
     return new Response($output);
