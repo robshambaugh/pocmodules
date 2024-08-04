@@ -1,0 +1,26 @@
+<?php
+
+use Drupal\Core\Routing\RouteMatchInterface;
+use GuzzleHttp\ClientInterface;
+use Symfony\Component\DependencyInjection\ContainerInterface;
+
+/**
+ * Implements hook_help().
+ */
+function api_consumer_help($route_name, RouteMatchInterface $route_match) {
+  switch ($route_name) {
+    case 'help.page.api_consumer':
+      return '<p>' . t('API Consumer module.') . '</p>';
+  }
+}
+
+/**
+ * Fetch data from remote API.
+ */
+function api_consumer_fetch_data() {
+  $client = \Drupal::httpClient();
+  $response = $client->request('GET', 'https://your-api-source-site/jsonapi/node/your-content-type');
+  $data = json_decode($response->getBody(), TRUE);
+
+  return $data;
+}

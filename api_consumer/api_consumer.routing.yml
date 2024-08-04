@@ -1,0 +1,7 @@
+api_consumer.content:
+  path: '/api-consumer'
+  defaults:
+    _controller: '\Drupal\api_consumer\Controller\APIConsumerController::content'
+    _title: 'API Consumer'
+  requirements:
+    _permission: 'access content'

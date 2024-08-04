@@ -1,0 +1,7 @@
+name: 'API Consumer'
+type: module
+description: 'Fetches data from a remote Drupal API.'
+package: Custom
+core_version_requirement: ^8 || ^9 || ^10
+dependencies:
+  - drupal:http_client
