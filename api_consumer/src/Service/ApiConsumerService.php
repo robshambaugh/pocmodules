@@ -18,10 +18,12 @@ class ApiConsumerService {
       $response = $this->httpClient->request('GET', $url);
       $data = json_decode($response->getBody(), TRUE);
 
+      \Drupal::logger('api_consumer')->info('API URL: @url', ['@url' => $url]);
       \Drupal::logger('api_consumer')->info('API Response: @response', ['@response' => json_encode($data)]);
 
       if (isset($data['data']) && is_array($data['data'])) {
         foreach ($data['data'] as $customer) {
+          \Drupal::logger('api_consumer')->info('Checking Customer ID: @id', ['@id' => $customer['attributes']['field_customer_id']]);
           if (isset($customer['attributes']['field_customer_id']) && $customer['attributes']['field_customer_id'] == $customer_id) {
             return $customer;
           }
@@ -40,8 +42,12 @@ class ApiConsumerService {
       $response = $this->httpClient->request('GET', $url);
       $data = json_decode($response->getBody(), TRUE);
 
+      \Drupal::logger('api_consumer')->info('API URL: @url', ['@url' => $url]);
+      \Drupal::logger('api_consumer')->info('API Response: @response', ['@response' => json_encode($data)]);
+
       if (isset($data['data']) && is_array($data['data'])) {
         foreach ($data['data'] as $trip) {
+          \Drupal::logger('api_consumer')->info('Checking Trip ID: @id', ['@id' => $trip['attributes']['field_trip_id']]);
           if (isset($trip['attributes']['field_trip_id']) && $trip['attributes']['field_trip_id'] == $trip_id) {
             return $trip;
           }
