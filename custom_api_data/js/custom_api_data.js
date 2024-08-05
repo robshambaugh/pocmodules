@@ -29,5 +29,26 @@
         fetchTripData(tripId);
       }
     });
+
+    var customerData = drupalSettings.customerData;
+
+    if (customerData) {
+      // Set the cookie with customer data
+      document.cookie = "customerData=" + JSON.stringify(customerData) + "; path=/";
+
+      // Extract data and add to the block if necessary
+      $('#customer-first-name').text(customerData.firstName);
+      $('#customer-last-name').text(customerData.lastName);
+      $('#trips-booked').text(customerData.tripsBooked);
+      $('#trip-details').text(customerData.tripDetails);
+
+      // Set Site Studio variables
+      if (typeof window.siteStudio !== 'undefined') {
+        window.siteStudio.variables.setVariableValue('customer_first_name', customerData.firstName);
+        window.siteStudio.variables.setVariableValue('customer_last_name', customerData.lastName);
+        window.siteStudio.variables.setVariableValue('trips_booked', customerData.tripsBooked);
+        window.siteStudio.variables.setVariableValue('trip_details', customerData.tripDetails);
+      }
+    }
   });
 })(jQuery, Drupal, drupalSettings);

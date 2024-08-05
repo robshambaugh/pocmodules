@@ -3,24 +3,25 @@
 namespace Drupal\custom_api_data\Service;
 
 use GuzzleHttp\ClientInterface;
+use Drupal\Core\Entity\EntityTypeManagerInterface;
 
-class CustomApiDataService {
+class ApiDataService {
+
   protected $httpClient;
+  protected $entityTypeManager;
 
-  public function __construct(ClientInterface $http_client) {
+  public function __construct(ClientInterface $http_client, EntityTypeManagerInterface $entity_type_manager) {
     $this->httpClient = $http_client;
+    $this->entityTypeManager = $entity_type_manager;
   }
 
-  public function fetchData($url) {
-    try {
-      $response = $this->httpClient->request('GET', $url);
-      $data = json_decode($response->getBody(), TRUE);
-      \Drupal::logger('custom_api_data')->info('API Response: @response', ['@response' => json_encode($data)]);
-      return $data;
-    }
-    catch (\Exception $e) {
-      \Drupal::logger('custom_api_data')->error('API Request Error: @message', ['@message' => $e->getMessage()]);
-      return NULL;
-    }
+  public function getCustomerData($customer_id) {
+    $response = $this->httpClient->request('GET', 'https://your-api-endpoint/customers/' . $customer_id);
+    return json_decode($response->getBody(), TRUE);
+  }
+
+  public function getCustomerTrips($customer_id) {
+    $response = $this->httpClient->request('GET', 'https://your-api-endpoint/customers/' . $customer_id . '/trips');
+    return json_decode($response->getBody(), TRUE);
   }
 }
