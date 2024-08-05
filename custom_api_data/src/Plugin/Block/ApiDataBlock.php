@@ -72,27 +72,38 @@ class ApiDataBlock extends BlockBase implements ContainerFactoryPluginInterface 
             // Format the trip details
             $trip_details = '';
             foreach ($trips as $trip) {
-              $trip_details .= '<br>Trip: ' . $trip['title'] . ' (From: ' . $trip['field_trip_start_date'] . ' To: ' . $trip['field_trip_end_date'] . ')';
+              $trip_details .= 'Trip: ' . $trip['field_trip_name'] . ' (From: ' . $trip['field_trip_start_date'] . ' To: ' . $trip['field_trip_end_date'] . ')';
             }
 
+            // Set cookie with customer data and trip details
+            $customer_data = [
+              'firstName' => $customer_first_name,
+              'lastName' => $customer_last_name,
+              'tripsBooked' => $trips_booked,
+              'tripDetails' => $trip_details,
+            ];
+
+            $cookie_value = json_encode($customer_data);
+            setcookie('customerData', $cookie_value, time() + (86400 * 30), "/"); // 86400 = 1 day, cookie expires in 30 days
+
             return [
-              '#markup' => $this->t('Customer: @first_name @last_name<br>Trips Booked: @trips_booked@trip_details', [
-                '@first_name' => $customer_first_name,
-                '@last_name' => $customer_last_name,
-                '@trips_booked' => $trips_booked,
-                '@trip_details' => $trip_details,
-              ]),
+              '#markup' => '<div id="api-data-block" style="display:none;"></div>',
+              '#attached' => [
+                'drupalSettings' => [
+                  'customApiData' => $customer_data,
+                ],
+              ],
             ];
           }
         }
       }
       return [
-        '#markup' => $this->t('No data available.'),
+        '#markup' => '<div id="api-data-block" style="display:none;">No data available.</div>',
       ];
     } catch (RequestException $e) {
       \Drupal::logger('custom_api_data')->error('API Request Error: @message', ['@message' => $e->getMessage()]);
       return [
-        '#markup' => $this->t('Error fetching data.'),
+        '#markup' => '<div id="api-data-block" style="display:none;">Error fetching data.</div>',
       ];
     }
   }
