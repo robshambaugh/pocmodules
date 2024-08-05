@@ -1,7 +1,9 @@
 name: 'API Consumer'
 type: module
-description: 'Fetches data from remote APIs.'
+description: 'Module to consume API data'
+core_version_requirement: ^8 || ^9
 package: Custom
-core_version_requirement: ^8 || ^9 || ^10
 dependencies:
-  - drupal:serialization
+  - drupal:jsonapi
+  - drupal:rest
+  - drupal:http_client
