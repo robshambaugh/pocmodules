@@ -10,6 +10,7 @@ function custom_content_tree_theme($existing, $type, $theme, $path) {
         'tree' => [],
       ],
       'template' => 'custom-content-tree',
+        'path' => drupal_get_path('module', 'custom_content_tree') . '/templates',
     ],
   ];
 }
