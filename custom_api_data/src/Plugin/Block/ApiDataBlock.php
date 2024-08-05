@@ -99,7 +99,7 @@ class ApiDataBlock extends BlockBase implements ContainerFactoryPluginInterface 
                   [
                     [
                       '#tag' => 'style',
-                      '#value' => '#api-data-block { display: none !important; }',
+                      '#value' => '#block-api-data-block { display: none !important; }',
                     ],
                     'api-data-block-style',
                   ],
@@ -111,11 +111,33 @@ class ApiDataBlock extends BlockBase implements ContainerFactoryPluginInterface 
       }
       return [
         '#markup' => '<div id="api-data-block" style="display:none;">No data available.</div>',
+        '#attached' => [
+          'html_head' => [
+            [
+              [
+                '#tag' => 'style',
+                '#value' => '#block-api-data-block { display: none !important; }',
+              ],
+              'api-data-block-style',
+            ],
+          ],
+        ],
       ];
     } catch (RequestException $e) {
       \Drupal::logger('custom_api_data')->error('API Request Error: @message', ['@message' => $e->getMessage()]);
       return [
         '#markup' => '<div id="api-data-block" style="display:none;">Error fetching data.</div>',
+        '#attached' => [
+          'html_head' => [
+            [
+              [
+                '#tag' => 'style',
+                '#value' => '#block-api-data-block { display: none !important; }',
+              ],
+              'api-data-block-style',
+            ],
+          ],
+        ],
       ];
     }
   }
