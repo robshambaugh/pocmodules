@@ -92,6 +92,9 @@ class ApiDataBlock extends BlockBase implements ContainerFactoryPluginInterface 
                 'drupalSettings' => [
                   'customApiData' => $customer_data,
                 ],
+                'library' => [
+                  'custom_api_data/custom_api_data',
+                ],
               ],
             ];
           }
