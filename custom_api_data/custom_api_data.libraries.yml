@@ -1,5 +1,5 @@
 custom_api_data:
-  version: 1.x
+  version: 3.0.0
   js:
     js/custom_api_data.js: {}
   dependencies:
