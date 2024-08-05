@@ -53,3 +53,4 @@ class CustomerDataBlock extends BlockBase implements ContainerFactoryPluginInter
     }
   }
 }
+  
