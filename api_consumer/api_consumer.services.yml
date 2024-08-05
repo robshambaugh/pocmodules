@@ -1,0 +1,4 @@
+services:
+  api_consumer.api_consumer_service:
+    class: 'Drupal\api_consumer\Service\ApiConsumerService'
+    arguments: ['@http_client']

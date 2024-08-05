@@ -3,13 +3,12 @@
 namespace Drupal\api_consumer\Plugin\Block;
 
 use Drupal\Core\Block\BlockBase;
-use Drupal\Core\Session\AccountProxyInterface;
-use Symfony\Component\DependencyInjection\ContainerInterface;
 use Drupal\Core\Plugin\ContainerFactoryPluginInterface;
-use GuzzleHttp\ClientInterface;
+use Symfony\Component\DependencyInjection\ContainerInterface;
+use Drupal\api_consumer\Service\ApiConsumerService;
 
 /**
- * Provides a 'Customer Data' Block.
+ * Provides a block to display customer data.
  *
  * @Block(
  *   id = "customer_data_block",
@@ -18,13 +17,11 @@ use GuzzleHttp\ClientInterface;
  */
 class CustomerDataBlock extends BlockBase implements ContainerFactoryPluginInterface {
 
-  protected $httpClient;
-  protected $currentUser;
+  protected $apiConsumerService;
 
-  public function __construct(array $configuration, $plugin_id, $plugin_definition, ClientInterface $http_client, AccountProxyInterface $current_user) {
+  public function __construct(array $configuration, $plugin_id, $plugin_definition, ApiConsumerService $apiConsumerService) {
     parent::__construct($configuration, $plugin_id, $plugin_definition);
-    $this->httpClient = $http_client;
-    $this->currentUser = $current_user;
+    $this->apiConsumerService = $apiConsumerService;
   }
 
   public static function create(ContainerInterface $container, array $configuration, $plugin_id, $plugin_definition) {
@@ -32,49 +29,19 @@ class CustomerDataBlock extends BlockBase implements ContainerFactoryPluginInter
       $configuration,
       $plugin_id,
       $plugin_definition,
-      $container->get('http_client'),
-      $container->get('current_user')
+      $container->get('api_consumer.api_consumer_service')
     );
   }
 
   public function build() {
-    $config = \Drupal::config('api_consumer.settings');
-    $apis = json_decode($config->get('apis'), TRUE);
-
-    $selected_api = 'Customers API';  // Fixed to the Customers API
-    $selected_endpoint = 'customers'; // Fixed to the customers endpoint
-
-    $api_url = '';
-    foreach ($apis as $api) {
-      if ($api['name'] == $selected_api) {
-        $api_url = $api['url'];
-        break;
-      }
-    }
-
-    $user_id = $this->currentUser->id();
-    $api_url .= '/' . $user_id;
-
-    $output = '';
-
-    try {
-      $response = $this->httpClient->request('GET', $api_url);
-      $data = json_decode($response->getBody(), TRUE);
-
-      if (empty($data)) {
-        $output = 'No customer data found for the user.';
-      } else {
-        // Process and display data as needed.
-        $output = '<pre>' . print_r($data, TRUE) . '</pre>';
-      }
-
-    } catch (\Exception $e) {
-      $output = 'An error occurred: ' . $e->getMessage();
-    }
+    // Replace with the desired customer ID for testing
+    $customer_id = 99999;
+    $customer_data = $this->apiConsumerService->getCustomersByCustomerId($customer_id);
 
     return [
-      '#type' => 'markup',
-      '#markup' => $output,
+      '#markup' => $this->t('Customer Data: @customer_data', [
+        '@customer_data' => json_encode($customer_data),
+      ]),
     ];
   }
 }
