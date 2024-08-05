@@ -87,7 +87,7 @@ class ApiDataBlock extends BlockBase implements ContainerFactoryPluginInterface 
             \Drupal::logger('custom_api_data')->info('Customer Data: @customer_data', ['@customer_data' => json_encode($customer_data)]);
 
             return [
-              '#markup' => '<div id="api-data-block" style="display:none;"></div>',
+              '#markup' => '<div id="api-data-block"></div>',
               '#attached' => [
                 'drupalSettings' => [
                   'customApiData' => $customer_data,
@@ -110,7 +110,7 @@ class ApiDataBlock extends BlockBase implements ContainerFactoryPluginInterface 
         }
       }
       return [
-        '#markup' => '<div id="api-data-block" style="display:none;">No data available.</div>',
+        '#markup' => '<div id="api-data-block"></div>',
         '#attached' => [
           'html_head' => [
             [
@@ -126,7 +126,7 @@ class ApiDataBlock extends BlockBase implements ContainerFactoryPluginInterface 
     } catch (RequestException $e) {
       \Drupal::logger('custom_api_data')->error('API Request Error: @message', ['@message' => $e->getMessage()]);
       return [
-        '#markup' => '<div id="api-data-block" style="display:none;">Error fetching data.</div>',
+        '#markup' => '<div id="api-data-block"></div>',
         '#attached' => [
           'html_head' => [
             [
