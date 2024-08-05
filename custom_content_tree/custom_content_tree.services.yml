@@ -1,4 +1,0 @@
-services:
-  custom_content_tree.content_tree_generator:
-    class: Drupal\custom_content_tree\Service\ContentTreeGenerator
-    arguments: ['@entity_type.manager']

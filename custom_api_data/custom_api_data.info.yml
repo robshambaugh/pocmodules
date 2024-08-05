@@ -1,6 +1,6 @@
-name: 'Custom Content Tree'
+name: 'Custom API Data'
 type: module
-description: 'A custom module to display a tree structure of content and related entities.'
+description: 'A custom module to fetch and display data from an external API.'
 core_version_requirement: ^8 || ^9 || ^10
 package: Custom
 dependencies:
@@ -9,4 +9,4 @@ dependencies:
   - drupal:layout_builder
   - drupal:cohesion
   - drupal:jsonapi
-version: 1.0.0
+version: 4.0.0
