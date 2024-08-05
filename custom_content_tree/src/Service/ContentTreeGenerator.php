@@ -16,7 +16,7 @@ class ContentTreeGenerator {
   public function buildTree() {
     $tree = [];
 
-    // Get all nodes with access check disabled
+    // Get all nodes with access check enabled
     $nids = \Drupal::entityQuery('node')
       ->accessCheck(TRUE)  // Explicitly set access check
       ->execute();

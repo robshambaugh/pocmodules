@@ -10,7 +10,14 @@ function custom_content_tree_theme($existing, $type, $theme, $path) {
         'tree' => [],
       ],
       'template' => 'custom-content-tree',
-        'path' => drupal_get_path('module', 'custom_content_tree') . '/templates',
+      'path' => drupal_get_path('module', 'custom_content_tree') . '/templates',
     ],
   ];
+}
+
+/**
+ * Implements hook_theme_suggestions_HOOK_alter() to debug theme hooks.
+ */
+function custom_content_tree_theme_suggestions_HOOK_alter(array &$suggestions, array $variables) {
+  \Drupal::logger('custom_content_tree')->notice('<pre><code>' . print_r($suggestions, TRUE) . '</code></pre>');
 }
