@@ -99,7 +99,7 @@ class ApiDataBlock extends BlockBase implements ContainerFactoryPluginInterface 
                   [
                     [
                       '#tag' => 'style',
-                      '#value' => '#block-api-data-block { display: none !important; }',
+                      '#value' => '#block-api-data-block { display: none !important; } #api-data-block { display: none !important; }',
                     ],
                     'api-data-block-style',
                   ],
@@ -116,7 +116,7 @@ class ApiDataBlock extends BlockBase implements ContainerFactoryPluginInterface 
             [
               [
                 '#tag' => 'style',
-                '#value' => '#block-api-data-block { display: none !important; }',
+                '#value' => '#block-api-data-block { display: none !important; } #api-data-block { display: none !important; }',
               ],
               'api-data-block-style',
             ],
@@ -132,7 +132,7 @@ class ApiDataBlock extends BlockBase implements ContainerFactoryPluginInterface 
             [
               [
                 '#tag' => 'style',
-                '#value' => '#block-api-data-block { display: none !important; }',
+                '#value' => '#block-api-data-block { display: none !important; } #api-data-block { display: none !important; }',
               ],
               'api-data-block-style',
             ],
