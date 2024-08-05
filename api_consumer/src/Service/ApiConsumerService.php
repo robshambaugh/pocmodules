@@ -18,6 +18,8 @@ class ApiConsumerService {
       $response = $this->httpClient->request('GET', $url);
       $data = json_decode($response->getBody(), TRUE);
 
+      \Drupal::logger('api_consumer')->info('API Response: @response', ['@response' => json_encode($data)]);
+
       if (isset($data['data']) && is_array($data['data'])) {
         foreach ($data['data'] as $customer) {
           if (isset($customer['attributes']['field_customer_id']) && $customer['attributes']['field_customer_id'] == $customer_id) {
@@ -26,8 +28,7 @@ class ApiConsumerService {
         }
       }
       return NULL;
-    }
-    catch (RequestException $e) {
+    } catch (RequestException $e) {
       \Drupal::logger('api_consumer')->error('API Request Error: @message', ['@message' => $e->getMessage()]);
       return NULL;
     }
@@ -47,8 +48,7 @@ class ApiConsumerService {
         }
       }
       return NULL;
-    }
-    catch (RequestException $e) {
+    } catch (RequestException $e) {
       \Drupal::logger('api_consumer')->error('API Request Error: @message', ['@message' => $e->getMessage()]);
       return NULL;
     }

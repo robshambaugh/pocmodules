@@ -38,10 +38,18 @@ class CustomerDataBlock extends BlockBase implements ContainerFactoryPluginInter
     $customer_id = 99999;
     $customer_data = $this->apiConsumerService->getCustomersByCustomerId($customer_id);
 
-    return [
-      '#markup' => $this->t('Customer Data: @customer_data', [
-        '@customer_data' => json_encode($customer_data),
-      ]),
-    ];
+    \Drupal::logger('api_consumer')->info('Customer Data Block: @data', ['@data' => json_encode($customer_data)]);
+
+    if ($customer_data) {
+      return [
+        '#markup' => $this->t('Customer Data: @customer_data', [
+          '@customer_data' => json_encode($customer_data),
+        ]),
+      ];
+    } else {
+      return [
+        '#markup' => $this->t('No data available.'),
+      ];
+    }
   }
 }
