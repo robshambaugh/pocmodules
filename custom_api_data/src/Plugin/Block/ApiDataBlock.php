@@ -35,6 +35,8 @@ class ApiDataBlock extends BlockBase implements ContainerFactoryPluginInterface 
   }
 
   public function build() {
+    \Drupal::logger('custom_api_data')->info('Building the API data block.');
+
     $customer_id = 99999;
     $url = "https://robsapisource.demo.acsitefactory.com/jsonapi/node/customers";
     try {
@@ -99,7 +101,7 @@ class ApiDataBlock extends BlockBase implements ContainerFactoryPluginInterface 
                   [
                     [
                       '#tag' => 'style',
-                      '#value' => '#block-api-data-block { display: none !important; } #api-data-block { display: none !important; }',
+                      '#value' => '#block-api-data-block, #api-data-block { display: none !important; }',
                     ],
                     'api-data-block-style',
                   ],
@@ -116,7 +118,7 @@ class ApiDataBlock extends BlockBase implements ContainerFactoryPluginInterface 
             [
               [
                 '#tag' => 'style',
-                '#value' => '#block-api-data-block { display: none !important; } #api-data-block { display: none !important; }',
+                '#value' => '#block-api-data-block, #api-data-block { display: none !important; }',
               ],
               'api-data-block-style',
             ],
@@ -132,7 +134,7 @@ class ApiDataBlock extends BlockBase implements ContainerFactoryPluginInterface 
             [
               [
                 '#tag' => 'style',
-                '#value' => '#block-api-data-block { display: none !important; } #api-data-block { display: none !important; }',
+                '#value' => '#block-api-data-block, #api-data-block { display: none !important; }',
               ],
               'api-data-block-style',
             ],
