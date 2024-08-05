@@ -51,11 +51,36 @@ class ApiDataBlock extends BlockBase implements ContainerFactoryPluginInterface 
             $customer_last_name = $customer['attributes']['field_customer_last_name'];
             $trips_booked = $customer['attributes']['field_trips_booked'];
 
+            // Fetch trip details
+            $trips = [];
+            if (isset($customer['relationships']['field_trip_id_s_booked']['data'])) {
+              foreach ($customer['relationships']['field_trip_id_s_booked']['data'] as $trip_reference) {
+                $trip_id = $trip_reference['id'];
+                $trip_url = "https://robsapisource.demo.acsitefactory.com/jsonapi/node/trips/{$trip_id}";
+                try {
+                  $trip_response = $this->httpClient->request('GET', $trip_url);
+                  $trip_data = json_decode($trip_response->getBody(), TRUE);
+                  if (isset($trip_data['data']['attributes'])) {
+                    $trips[] = $trip_data['data']['attributes'];
+                  }
+                } catch (RequestException $e) {
+                  \Drupal::logger('custom_api_data')->error('Trip API Request Error: @message', ['@message' => $e->getMessage()]);
+                }
+              }
+            }
+
+            // Format the trip details
+            $trip_details = '';
+            foreach ($trips as $trip) {
+              $trip_details .= '<br>Trip: ' . $trip['title'] . ' (From: ' . $trip['field_trip_start_date'] . ' To: ' . $trip['field_trip_end_date'] . ')';
+            }
+
             return [
-              '#markup' => $this->t('Customer: @first_name @last_name<br>Trips Booked: @trips_booked', [
+              '#markup' => $this->t('Customer: @first_name @last_name<br>Trips Booked: @trips_booked@trip_details', [
                 '@first_name' => $customer_first_name,
                 '@last_name' => $customer_last_name,
                 '@trips_booked' => $trips_booked,
+                '@trip_details' => $trip_details,
               ]),
             ];
           }
