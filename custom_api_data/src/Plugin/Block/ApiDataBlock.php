@@ -50,6 +50,7 @@ class ApiDataBlock extends BlockBase implements ContainerFactoryPluginInterface 
             $customer_first_name = $customer['attributes']['field_customer_first_name'];
             $customer_last_name = $customer['attributes']['field_customer_last_name'];
             $trips_booked = $customer['attributes']['field_trips_booked'];
+
             return [
               '#markup' => $this->t('Customer: @first_name @last_name<br>Trips Booked: @trips_booked', [
                 '@first_name' => $customer_first_name,
