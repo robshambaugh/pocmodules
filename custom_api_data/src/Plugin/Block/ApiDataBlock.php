@@ -72,7 +72,7 @@ class ApiDataBlock extends BlockBase implements ContainerFactoryPluginInterface 
             // Format the trip details
             $trip_details = '';
             foreach ($trips as $trip) {
-              $trip_details .= 'Trip: ' . $trip['field_trip_name'] . ' (From: ' . $trip['field_trip_start_date'] . ' To: ' . $trip['field_trip_end_date'] . ')';
+              $trip_details .= 'Trip: ' . $trip['field_trip_name'] . ' From: ' . $trip['field_trip_start_date'] . ' To: ' . $trip['field_trip_end_date'];
             }
 
             // Set cookie with customer data and trip details
