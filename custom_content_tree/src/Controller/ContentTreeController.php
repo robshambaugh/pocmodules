@@ -22,6 +22,10 @@ class ContentTreeController extends ControllerBase {
 
   public function view() {
     $tree = $this->contentTreeGenerator->buildTree();
+    
+    // Log the tree data
+    \Drupal::logger('custom_content_tree')->notice('<pre><code>' . print_r($tree, TRUE) . '</code></pre>');
+    
     return [
       '#theme' => 'custom_content_tree',
       '#tree' => $tree,
