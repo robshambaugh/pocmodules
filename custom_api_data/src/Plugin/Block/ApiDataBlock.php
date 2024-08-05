@@ -62,6 +62,7 @@ class ApiDataBlock extends BlockBase implements ContainerFactoryPluginInterface 
                   $trip_data = json_decode($trip_response->getBody(), TRUE);
                   if (isset($trip_data['data']['attributes'])) {
                     $trips[] = $trip_data['data']['attributes'];
+                    \Drupal::logger('custom_api_data')->info('Trip Data: @trip_data', ['@trip_data' => json_encode($trip_data['data']['attributes'])]);
                   }
                 } catch (RequestException $e) {
                   \Drupal::logger('custom_api_data')->error('Trip API Request Error: @message', ['@message' => $e->getMessage()]);
@@ -82,6 +83,8 @@ class ApiDataBlock extends BlockBase implements ContainerFactoryPluginInterface 
               'tripsBooked' => $trips_booked,
               'tripDetails' => $trip_details,
             ];
+
+            \Drupal::logger('custom_api_data')->info('Customer Data: @customer_data', ['@customer_data' => json_encode($customer_data)]);
 
             return [
               '#markup' => '<div id="api-data-block" style="display:none;"></div>',
