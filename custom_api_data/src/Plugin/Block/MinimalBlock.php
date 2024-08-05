@@ -11,7 +11,6 @@ use Drupal\Core\Block\BlockBase;
  *   id = "minimal_block",
  *   admin_label = @Translation("Minimal Block"),
  * )
- */
 class MinimalBlock extends BlockBase {
 
   /**
