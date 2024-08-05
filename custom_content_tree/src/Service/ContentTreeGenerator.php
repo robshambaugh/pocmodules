@@ -18,7 +18,7 @@ class ContentTreeGenerator {
 
     // Get all nodes with access check enabled
     $nids = \Drupal::entityQuery('node')
-      ->accessCheck(TRUE)  // Explicitly set access check
+      ->accessCheck(TRUE)
       ->execute();
     $nodes = Node::loadMultiple($nids);
 
@@ -37,8 +37,7 @@ class ContentTreeGenerator {
   private function getRelatedEntities(Node $node) {
     $related_entities = [];
     
-    // Add logic to fetch related entities, for example, related taxonomy terms
-    // This is just an example; modify according to your relationships
+    // Example to fetch related taxonomy terms; modify as needed
     $terms = $node->get('field_tags')->referencedEntities();
     foreach ($terms as $term) {
       $related_entities[] = [
