@@ -15,10 +15,11 @@ class CustomApiDataService {
     try {
       $response = $this->httpClient->request('GET', $url);
       $data = json_decode($response->getBody(), TRUE);
+      \Drupal::logger('custom_api_data')->info('API Response: @response', ['@response' => json_encode($data)]);
       return $data;
     }
     catch (\Exception $e) {
-      \Drupal::logger('custom_api_data')->error($e->getMessage());
+      \Drupal::logger('custom_api_data')->error('API Request Error: @message', ['@message' => $e->getMessage()]);
       return NULL;
     }
   }
