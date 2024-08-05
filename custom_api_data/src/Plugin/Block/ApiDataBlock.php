@@ -83,9 +83,6 @@ class ApiDataBlock extends BlockBase implements ContainerFactoryPluginInterface 
               'tripDetails' => $trip_details,
             ];
 
-            $cookie_value = json_encode($customer_data);
-            setcookie('customerData', $cookie_value, time() + (86400 * 30), "/"); // 86400 = 1 day, cookie expires in 30 days
-
             return [
               '#markup' => '<div id="api-data-block" style="display:none;"></div>',
               '#attached' => [
