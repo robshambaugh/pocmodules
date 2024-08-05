@@ -135,14 +135,4 @@ class ApiDataBlock extends BlockBase implements ContainerFactoryPluginInterface 
                 '#value' => '#block-api-data-block { display: none !important; }',
               ],
               'api-data-block-style',
-            ],
-          ],
-        ],
-      ];
-    }
-  }
-
-  public function getCacheMaxAge() {
-    return 0;
-  }
-}
+      
