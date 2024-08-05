@@ -1,0 +1,7 @@
+content_tree:
+  version: 1.x
+  js:
+    js/content_tree.js: {}
+  dependencies:
+    - core/jquery
+    - core/drupal

@@ -1,0 +1,9 @@
+name: 'Custom Content Tree'
+type: module
+description: 'A custom module to display a tree structure of content and related entities.'
+core_version_requirement: ^8 || ^9 || ^10
+package: Custom
+dependencies:
+  - drupal:node
+  - drupal:views
+version: 1.0.0

@@ -1,0 +1,21 @@
+<div class="content-tree">
+  <div class="tree">
+    <ul>
+      {% for item in tree %}
+        <li class="content-tree-item" data-nid="{{ item.id }}">
+          {{ item.title }}
+          {% if item.children %}
+            <ul>
+              {% for child in item.children %}
+                <li class="content-tree-item" data-nid="{{ child.id }}">{{ child.title }}</li>
+              {% endfor %}
+            </ul>
+          {% endif %}
+        </li>
+      {% endfor %}
+    </ul>
+  </div>
+  <div id="content-preview" class="preview">
+    <!-- Preview content will be loaded here -->
+  </div>
+</div>
