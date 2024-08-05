@@ -1,4 +1,0 @@
-services:
-  custom_api_data.api_data_service:
-    class: Drupal\custom_api_data\Service\ApiDataService
-    arguments: ['@http_client', '@entity_type.manager']

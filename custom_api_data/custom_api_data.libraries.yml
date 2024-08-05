@@ -1,8 +1,0 @@
-custom_api_data:
-  version: 4.x
-  js:
-    js/custom_api_data.js: {}
-  dependencies:
-    - core/jquery
-    - core/drupal
-    - core/drupalSettings
