@@ -16,8 +16,10 @@ class ContentTreeGenerator {
   public function buildTree() {
     $tree = [];
 
-    // Get all nodes
-    $nids = \Drupal::entityQuery('node')->execute();
+    // Get all nodes with access check disabled
+    $nids = \Drupal::entityQuery('node')
+      ->accessCheck(TRUE)  // Explicitly set access check
+      ->execute();
     $nodes = Node::loadMultiple($nids);
 
     // Create tree structure
