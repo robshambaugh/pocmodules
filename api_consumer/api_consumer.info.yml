@@ -1,7 +1,7 @@
 name: 'API Consumer'
 type: module
 description: 'Module to consume API data'
-core_version_requirement: ^8 || ^9
+core_version_requirement: ^10
 package: Custom
 dependencies:
   - drupal:jsonapi

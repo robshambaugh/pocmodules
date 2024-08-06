@@ -7,41 +7,36 @@ use Drupal\Core\Form\FormStateInterface;
 
 class APIConsumerConfigForm extends ConfigFormBase {
 
-  /**
-   * {@inheritdoc}
-   */
   protected function getEditableConfigNames() {
     return ['api_consumer.settings'];
   }
 
-  /**
-   * {@inheritdoc}
-   */
   public function getFormId() {
     return 'api_consumer_config_form';
   }
 
-  /**
-   * {@inheritdoc}
-   */
   public function buildForm(array $form, FormStateInterface $form_state) {
     $config = $this->config('api_consumer.settings');
+    
+    $form['selected_api'] = [
+      '#type' => 'textfield',
+      '#title' => $this->t('Selected API'),
+      '#default_value' => $config->get('selected_api'),
+    ];
 
     $form['apis'] = [
       '#type' => 'textarea',
-      '#title' => $this->t('API Sources'),
-      '#description' => $this->t('Enter the API sources as JSON. Example: [{"name": "Customers API", "url": "https://myapisource.com", "endpoint": "customers"}, {"name": "Trips API", "url": "https://myapisource.com", "endpoint": "trips"}]'),
-      '#default_value' => $config->get('apis') ?: '[]',
+      '#title' => $this->t('APIs'),
+      '#default_value' => $config->get('apis'),
+      '#description' => $this->t('Enter the APIs in JSON format.'),
     ];
 
     return parent::buildForm($form, $form_state);
   }
 
-  /**
-   * {@inheritdoc}
-   */
   public function submitForm(array &$form, FormStateInterface $form_state) {
     $this->config('api_consumer.settings')
+      ->set('selected_api', $form_state->getValue('selected_api'))
       ->set('apis', $form_state->getValue('apis'))
       ->save();
 

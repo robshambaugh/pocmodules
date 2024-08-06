@@ -1,0 +1,8 @@
+services:
+  connect_api_source.api_service:
+    class: Drupal\\connect_api_source\\Service\\ApiService
+    arguments: ['@http_client', '@entity_type.manager', '@request_stack']
+  connect_api_source.site_studio_trip_component:
+    class: Drupal\\connect_api_source\\SiteStudio\\TripComponent
+    tags:
+      - { name: plugin.manager.site_studio_component }

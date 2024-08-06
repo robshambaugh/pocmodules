@@ -3,60 +3,29 @@
 namespace Drupal\api_consumer\Service;
 
 use GuzzleHttp\ClientInterface;
-use GuzzleHttp\Exception\RequestException;
+use Drupal\Core\Entity\EntityTypeManagerInterface;
 
-class ApiConsumerService {
+class APIConsumerService {
+
   protected $httpClient;
+  protected $entityTypeManager;
 
-  public function __construct(ClientInterface $http_client) {
+  public function __construct(ClientInterface $http_client, EntityTypeManagerInterface $entity_type_manager) {
     $this->httpClient = $http_client;
+    $this->entityTypeManager = $entity_type_manager;
   }
 
-  public function getCustomersByCustomerId($customer_id) {
-    $url = "https://robsapisource.demo.acsitefactory.com/jsonapi/node/customers";
-    try {
-      $response = $this->httpClient->request('GET', $url);
-      $data = json_decode($response->getBody(), TRUE);
-
-      \Drupal::logger('api_consumer')->info('API URL: @url', ['@url' => $url]);
-      \Drupal::logger('api_consumer')->info('API Response: @response', ['@response' => json_encode($data)]);
-
-      if (isset($data['data']) && is_array($data['data'])) {
-        foreach ($data['data'] as $customer) {
-          \Drupal::logger('api_consumer')->info('Checking Customer ID: @id', ['@id' => $customer['attributes']['field_customer_id']]);
-          if (isset($customer['attributes']['field_customer_id']) && $customer['attributes']['field_customer_id'] == $customer_id) {
-            return $customer;
-          }
-        }
-      }
-      return NULL;
-    } catch (RequestException $e) {
-      \Drupal::logger('api_consumer')->error('API Request Error: @message', ['@message' => $e->getMessage()]);
-      return NULL;
-    }
+  public function getCustomerData($customer_id) {
+    // Implement the method to get customer data from the API.
+    // Example placeholder code:
+    $response = $this->httpClient->request('GET', 'https://api.example.com/customer/' . $customer_id);
+    return json_decode($response->getBody(), TRUE);
   }
 
-  public function getTripsByTripId($trip_id) {
-    $url = "https://robsapisource.demo.acsitefactory.com/jsonapi/node/trips";
-    try {
-      $response = $this->httpClient->request('GET', $url);
-      $data = json_decode($response->getBody(), TRUE);
-
-      \Drupal::logger('api_consumer')->info('API URL: @url', ['@url' => $url]);
-      \Drupal::logger('api_consumer')->info('API Response: @response', ['@response' => json_encode($data)]);
-
-      if (isset($data['data']) && is_array($data['data'])) {
-        foreach ($data['data'] as $trip) {
-          \Drupal::logger('api_consumer')->info('Checking Trip ID: @id', ['@id' => $trip['attributes']['field_trip_id']]);
-          if (isset($trip['attributes']['field_trip_id']) && $trip['attributes']['field_trip_id'] == $trip_id) {
-            return $trip;
-          }
-        }
-      }
-      return NULL;
-    } catch (RequestException $e) {
-      \Drupal::logger('api_consumer')->error('API Request Error: @message', ['@message' => $e->getMessage()]);
-      return NULL;
-    }
+  public function getCustomerTrips($customer_id) {
+    // Implement the method to get customer trips from the API.
+    // Example placeholder code:
+    $response = $this->httpClient->request('GET', 'https://api.example.com/customer/' . $customer_id . '/trips');
+    return json_decode($response->getBody(), TRUE);
   }
 }

@@ -1,3 +1,9 @@
+access content:
+  title: 'Access content'
+  description: 'Permission to access content provided by the API Consumer module.'
+  restrict access: true
+
 administer api consumer settings:
   title: 'Administer API Consumer settings'
-  description: 'Manage API sources and endpoints for the API Consumer module.'
+  description: 'Permission to manage API Consumer module settings.'
+  restrict access: true

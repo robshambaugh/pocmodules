@@ -1,4 +1,4 @@
 services:
   api_consumer.api_consumer_service:
-    class: 'Drupal\api_consumer\Service\ApiConsumerService'
-    arguments: ['@http_client']
+    class: Drupal\api_consumer\Service\APIConsumerService
+    arguments: ['@http_client', '@entity_type.manager']

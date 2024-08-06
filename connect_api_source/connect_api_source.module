@@ -1,0 +1,13 @@
+<?php
+
+use Symfony\Component\HttpFoundation\Request;
+
+/**
+ * Implements hook_views_api().
+ */
+function connect_api_source_views_api() {
+  return [
+    'api' => '3.0',
+    'path' => drupal_get_path('module', 'connect_api_source') . '/views',
+  ];
+}
